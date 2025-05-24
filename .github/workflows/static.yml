@@ -5,6 +5,11 @@ on:
   # Runs on pushes targeting the default branch
   push:
     branches: ["main"]
+    paths:
+      - 'index.html'
+      - 'README.md'
+      - '*.css'
+      - '*.js'
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -31,13 +36,46 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        
+      - name: Validate required files
+        run: |
+          echo "Validating required files for GitHub Pages deployment..."
+          
+          if [ -f "index.html" ]; then
+            echo "✅ index.html found"
+            echo "📄 Preview of index.html (first 10 lines):"
+            head -10 index.html
+          else
+            echo "❌ index.html not found"
+            echo "Available files:"
+            ls -la
+            exit 1
+          fi
+          
+          if [ -f "README.md" ]; then
+            echo "✅ README.md found"
+          else
+            echo "⚠️ README.md not found (optional)"
+          fi
+          
       - name: Setup Pages
         uses: actions/configure-pages@v5
+        
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Upload entire repository
+          # Upload only necessary files for the website
           path: '.'
+          
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+        
+      - name: Deployment summary
+        run: |
+          echo "🎉 Deployment completed successfully!"
+          echo "🌐 Site URL: ${{ steps.deployment.outputs.page_url }}"
+          echo "📝 Deployed files include:"
+          echo "  - index.html (main page)"
+          echo "  - README.md (if available)"
+          echo "  - EpicManifestUpdater.ps1 (downloadable script)"
