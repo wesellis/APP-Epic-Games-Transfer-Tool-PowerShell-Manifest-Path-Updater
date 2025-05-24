@@ -1,0 +1,232 @@
+name: Create Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version (e.g., v1.2.0)'
+        required: true
+        type: string
+
+jobs:
+  create-release:
+    name: Create Release
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        
+    - name: Setup PowerShell
+      uses: actions/setup-powershell@v1
+      
+    - name: Validate script before release
+      shell: pwsh
+      run: |
+        Write-Host "Validating script for release..." -ForegroundColor Blue
+        
+        # Install PSScriptAnalyzer
+        Install-Module -Name PSScriptAnalyzer -Force -Scope CurrentUser
+        
+        # Run analysis
+        $results = Invoke-ScriptAnalyzer -Path ./EpicManifestUpdater.ps1 -Severity Error
+        
+        if ($results) {
+          Write-Host "❌ Script has errors, cannot create release:" -ForegroundColor Red
+          $results | Format-Table -AutoSize
+          exit 1
+        } else {
+          Write-Host "✅ Script validation passed" -ForegroundColor Green
+        }
+        
+    - name: Extract version
+      shell: pwsh
+      run: |
+        if ("${{ github.event.inputs.version }}" -ne "") {
+          $version = "${{ github.event.inputs.version }}"
+        } else {
+          $version = "${{ github.ref_name }}"
+        }
+        
+        Write-Host "Release version: $version"
+        echo "RELEASE_VERSION=$version" >> $env:GITHUB_ENV
+        
+        # Extract version number without 'v' prefix for comparisons
+        $versionNumber = $version -replace '^v', ''
+        echo "VERSION_NUMBER=$versionNumber" >> $env:GITHUB_ENV
+        
+    - name: Generate release notes
+      shell: pwsh
+      run: |
+        $version = $env:RELEASE_VERSION
+        $changelogPath = "./CHANGELOG.md"
+        
+        if (Test-Path $changelogPath) {
+          Write-Host "Extracting release notes from CHANGELOG.md..." -ForegroundColor Blue
+          
+          $changelog = Get-Content $changelogPath -Raw
+          
+          # Extract the section for this version
+          $pattern = "(?s)## \[$($env:VERSION_NUMBER)\].*?(?=## \[|\z)"
+          $versionSection = [regex]::Match($changelog, $pattern).Value
+          
+          if ($versionSection) {
+            $releaseNotes = $versionSection -replace "## \[$($env:VERSION_NUMBER)\].*?(\r?\n){1,2}", ""
+            $releaseNotes = $releaseNotes.Trim()
+          } else {
+            $releaseNotes = "Release $version of Epic Games Manifest Updater"
+          }
+        } else {
+          $releaseNotes = "Release $version of Epic Games Manifest Updater"
+        }
+        
+        # Save release notes to file
+        $releaseNotes | Out-File -FilePath "./release-notes.md" -Encoding UTF8
+        
+        Write-Host "Release notes generated:" -ForegroundColor Green
+        Write-Host $releaseNotes
+        
+    - name: Create release ZIP
+      shell: pwsh
+      run: |
+        $version = $env:RELEASE_VERSION
+        $zipName = "EpicManifestUpdater-$version.zip"
+        
+        Write-Host "Creating release package: $zipName" -ForegroundColor Blue
+        
+        # Create a temporary directory for the release
+        $releaseDir = "./release-temp"
+        New-Item -ItemType Directory -Path $releaseDir -Force
+        
+        # Copy main script
+        Copy-Item "./EpicManifestUpdater.ps1" -Destination "$releaseDir/"
+        
+        # Copy documentation
+        Copy-Item "./README.md" -Destination "$releaseDir/"
+        Copy-Item "./LICENSE" -Destination "$releaseDir/"
+        
+        if (Test-Path "./CHANGELOG.md") {
+          Copy-Item "./CHANGELOG.md" -Destination "$releaseDir/"
+        }
+        
+        # Create installation instructions
+        $installInstructions = @"
+# Epic Games Manifest Updater $version
+
+## Quick Installation
+
+1. **Download**: You've already downloaded the files!
+2. **Unblock**: Right-click 'EpicManifestUpdater.ps1' → Properties → Check 'Unblock' → OK
+3. **Run**: Right-click 'EpicManifestUpdater.ps1' → 'Run with PowerShell'
+4. **Follow prompts**: Select your new games folder when prompted
+
+## What's Included
+
+- **EpicManifestUpdater.ps1** - The main script
+- **README.md** - Detailed documentation and troubleshooting
+- **LICENSE** - MIT License
+- **CHANGELOG.md** - Version history and changes
+- **INSTALL.txt** - This file
+
+## Need Help?
+
+- Check README.md for detailed instructions
+- Visit: https://github.com/wesellis/epic-manifest-updater
+- Report issues: https://github.com/wesellis/epic-manifest-updater/issues
+
+## System Requirements
+
+- Windows 10/11
+- PowerShell 5.1+ (included with Windows)
+- Epic Games Launcher installed
+- Games already moved to new location
+
+Happy gaming! 🎮
+"@
+        
+        $installInstructions | Out-File -FilePath "$releaseDir/INSTALL.txt" -Encoding UTF8
+        
+        # Create ZIP file
+        Compress-Archive -Path "$releaseDir/*" -DestinationPath "./$zipName" -Force
+        
+        Write-Host "✅ Release package created: $zipName" -ForegroundColor Green
+        echo "ZIP_NAME=$zipName" >> $env:GITHUB_ENV
+        
+        # Cleanup
+        Remove-Item -Path $releaseDir -Recurse -Force
+        
+    - name: Create GitHub Release
+      uses: actions/create-release@v1
+      id: create_release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ env.RELEASE_VERSION }}
+        release_name: Epic Games Manifest Updater ${{ env.RELEASE_VERSION }}
+        body_path: ./release-notes.md
+        draft: false
+        prerelease: false
+        
+    - name: Upload main script
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./EpicManifestUpdater.ps1
+        asset_name: EpicManifestUpdater.ps1
+        asset_content_type: text/plain
+        
+    - name: Upload release ZIP
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./${{ env.ZIP_NAME }}
+        asset_name: ${{ env.ZIP_NAME }}
+        asset_content_type: application/zip
+        
+    - name: Update download links in README
+      shell: pwsh
+      run: |
+        Write-Host "Updating download links in README..." -ForegroundColor Blue
+        
+        $readmePath = "./README.md"
+        $version = $env:RELEASE_VERSION
+        
+        if (Test-Path $readmePath) {
+          $readme = Get-Content $readmePath -Raw
+          
+          # Update download link
+          $newDownloadUrl = "https://github.com/wesellis/epic-manifest-updater/releases/download/$version/EpicManifestUpdater.ps1"
+          $readme = $readme -replace 'https://github\.com/wesellis/epic-manifest-updater/releases/download/v[\d\.]+/EpicManifestUpdater\.ps1', $newDownloadUrl
+          
+          $readme | Out-File -FilePath $readmePath -Encoding UTF8
+          
+          Write-Host "✅ README updated with new download links" -ForegroundColor Green
+        }
+        
+    - name: Generate release summary
+      shell: pwsh
+      run: |
+        $version = $env:RELEASE_VERSION
+        
+        Write-Host "🎉 Release $version created successfully!" -ForegroundColor Green
+        Write-Host ""
+        Write-Host "📦 Assets uploaded:" -ForegroundColor Blue
+        Write-Host "  - EpicManifestUpdater.ps1 (main script)"
+        Write-Host "  - $($env:ZIP_NAME) (complete package)"
+        Write-Host ""
+        Write-Host "🔗 Release URL: https://github.com/wesellis/epic-manifest-updater/releases/tag/$version"
+        Write-Host ""
+        Write-Host "Next steps:" -ForegroundColor Yellow
+        Write-Host "  1. Verify the release on GitHub"
+        Write-Host "  2. Test download links"
+        Write-Host "  3. Update any external documentation"
+        Write-Host "  4. Announce the release to users"

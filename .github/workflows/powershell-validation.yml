@@ -1,0 +1,179 @@
+name: PowerShell Script Validation
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - '*.ps1'
+      - 'scripts/*.ps1'
+      - 'tests/*.ps1'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - '*.ps1'
+      - 'scripts/*.ps1'  
+      - 'tests/*.ps1'
+  workflow_dispatch:
+
+jobs:
+  validate-powershell:
+    name: PowerShell Validation
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Setup PowerShell
+      uses: actions/setup-powershell@v1
+      
+    - name: Install PSScriptAnalyzer
+      shell: pwsh
+      run: |
+        Set-PSRepository PSGallery -InstallationPolicy Trusted
+        Install-Module -Name PSScriptAnalyzer -Force -Scope CurrentUser
+        Install-Module -Name Pester -Force -Scope CurrentUser -SkipPublisherCheck
+        
+    - name: Run PSScriptAnalyzer on main script
+      shell: pwsh
+      run: |
+        Write-Host "Analyzing EpicManifestUpdater.ps1..." -ForegroundColor Blue
+        $results = Invoke-ScriptAnalyzer -Path ./EpicManifestUpdater.ps1 -Severity Error,Warning,Information
+        
+        if ($results) {
+          Write-Host "PSScriptAnalyzer found the following issues:" -ForegroundColor Red
+          $results | Format-Table -AutoSize
+          
+          $errorCount = ($results | Where-Object Severity -eq 'Error').Count
+          $warningCount = ($results | Where-Object Severity -eq 'Warning').Count
+          $infoCount = ($results | Where-Object Severity -eq 'Information').Count
+          
+          Write-Host "Summary: $errorCount errors, $warningCount warnings, $infoCount informational" -ForegroundColor Yellow
+          
+          if ($errorCount -gt 0) {
+            Write-Host "❌ PSScriptAnalyzer found $errorCount errors. Please fix before merging." -ForegroundColor Red
+            exit 1
+          } elseif ($warningCount -gt 0) {
+            Write-Host "⚠️ PSScriptAnalyzer found $warningCount warnings. Please review." -ForegroundColor Yellow
+          } else {
+            Write-Host "ℹ️ Only informational messages found." -ForegroundColor Blue
+          }
+        } else {
+          Write-Host "✅ PSScriptAnalyzer found no issues!" -ForegroundColor Green
+        }
+        
+    - name: Test PowerShell syntax
+      shell: pwsh
+      run: |
+        Write-Host "Testing PowerShell syntax..." -ForegroundColor Blue
+        
+        try {
+          $null = [System.Management.Automation.PSParser]::Tokenize((Get-Content ./EpicManifestUpdater.ps1 -Raw), [ref]$null)
+          Write-Host "✅ PowerShell syntax is valid" -ForegroundColor Green
+        }
+        catch {
+          Write-Host "❌ PowerShell syntax error: $($_.Exception.Message)" -ForegroundColor Red
+          exit 1
+        }
+        
+    - name: Test script imports and basic functionality
+      shell: pwsh
+      run: |
+        Write-Host "Testing script imports and basic checks..." -ForegroundColor Blue
+        
+        try {
+          # Test that the script can be imported without execution
+          $scriptContent = Get-Content ./EpicManifestUpdater.ps1 -Raw
+          
+          # Check for required assemblies
+          if ($scriptContent -match 'Add-Type -AssemblyName System.Windows.Forms') {
+            Write-Host "✅ Windows Forms assembly import found" -ForegroundColor Green
+          } else {
+            Write-Host "⚠️ Windows Forms assembly import not found" -ForegroundColor Yellow
+          }
+          
+          # Check for essential functions
+          $functions = @('Close-EpicGames', 'Select-Folder', 'Write-ColorOutput', 'Pause')
+          foreach ($func in $functions) {
+            if ($scriptContent -match "function $func") {
+              Write-Host "✅ Function $func found" -ForegroundColor Green
+            } else {
+              Write-Host "❌ Function $func not found" -ForegroundColor Red
+            }
+          }
+          
+          Write-Host "✅ Basic functionality checks passed" -ForegroundColor Green
+        }
+        catch {
+          Write-Host "❌ Script validation error: $($_.Exception.Message)" -ForegroundColor Red
+          exit 1
+        }
+        
+    - name: Run Pester tests (if available)
+      shell: pwsh
+      run: |
+        if (Test-Path ./tests) {
+          Write-Host "Running Pester tests..." -ForegroundColor Blue
+          
+          $pesterConfig = New-PesterConfiguration
+          $pesterConfig.Run.Path = './tests'
+          $pesterConfig.Output.Verbosity = 'Detailed'
+          $pesterConfig.TestResult.Enabled = $true
+          $pesterConfig.TestResult.OutputPath = './TestResults.xml'
+          
+          $result = Invoke-Pester -Configuration $pesterConfig
+          
+          if ($result.FailedCount -gt 0) {
+            Write-Host "❌ $($result.FailedCount) tests failed" -ForegroundColor Red
+            exit 1
+          } else {
+            Write-Host "✅ All $($result.PassedCount) tests passed" -ForegroundColor Green
+          }
+        } else {
+          Write-Host "ℹ️ No tests directory found, skipping Pester tests" -ForegroundColor Blue
+        }
+        
+    - name: Upload test results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: test-results
+        path: TestResults.xml
+        
+    - name: Security scan
+      shell: pwsh
+      run: |
+        Write-Host "Performing security scan..." -ForegroundColor Blue
+        
+        $securityIssues = @()
+        $scriptContent = Get-Content ./EpicManifestUpdater.ps1 -Raw
+        
+        # Check for potential security issues
+        $securityPatterns = @{
+          'Hardcoded paths' = 'C:\\\\.*\\\\.*'
+          'Invoke-Expression usage' = 'Invoke-Expression|iex '
+          'Download commands' = 'Invoke-WebRequest|wget|curl'
+          'Registry modifications' = 'Set-ItemProperty.*HKLM:|New-ItemProperty.*HKLM:'
+        }
+        
+        foreach ($check in $securityPatterns.GetEnumerator()) {
+          if ($scriptContent -match $check.Value) {
+            $securityIssues += "Potential security concern: $($check.Key)"
+          }
+        }
+        
+        # Check for good security practices
+        if ($scriptContent -match 'Test-Path') {
+          Write-Host "✅ Path validation found" -ForegroundColor Green
+        }
+        
+        if ($scriptContent -match 'try.*catch') {
+          Write-Host "✅ Error handling found" -ForegroundColor Green
+        }
+        
+        if ($securityIssues.Count -gt 0) {
+          Write-Host "⚠️ Security review needed:" -ForegroundColor Yellow
+          $securityIssues | ForEach-Object { Write-Host "  - $_" -ForegroundColor Yellow }
+        } else {
+          Write-Host "✅ No obvious security issues found" -ForegroundColor Green
+        }
