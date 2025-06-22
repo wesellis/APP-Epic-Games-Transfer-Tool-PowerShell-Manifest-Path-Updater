@@ -6,29 +6,29 @@
 
 ## Revenue Streams
 
-### 1. Gumroad Launch ($14.99)
+### 1. Gumroad Launch ($4.99)
 **Free Version**:
 - Basic manifest updates
 - Manual operations
-- 5 games limit
+- Works with all games
 
 **Pro Version Features**:
-- Unlimited games
-- Auto-sync
-- Cloud backup
-- Priority updates
-- Discord support
+- One-click batch operations
+- Auto-backup before changes
+- Command line automation
+- Priority email support
+- Future updates included
 
-### 2. Steam Deck Version ($19.99)
-- Optimized for Steam Deck
-- One-click game imports
-- Controller support
+### 2. Buy Me a Coffee
+- Tip jar for donations
+- $3 suggested amount
+- No features locked
 
 ### 3. Patreon Tiers
 ```
-$3/mo - Early access
-$10/mo - Pro features
-$25/mo - Custom features
+$1/mo - Support development
+$3/mo - Early access to betas
+$5/mo - Vote on new features
 ```
 
 ## QUICK LAUNCH STEPS
@@ -64,9 +64,9 @@ def validate_license():
 ```
 
 ## Revenue Projection
-- Month 1: 50 sales = $750
-- Month 6: 200 sales/mo = $3,000
-- Year 1: $15,000-25,000
+- Month 1: 50 sales = $250
+- Month 6: 100 sales/mo = $500
+- Year 1: $3,000-6,000
 
 ## Competition
 - No direct competitors!
