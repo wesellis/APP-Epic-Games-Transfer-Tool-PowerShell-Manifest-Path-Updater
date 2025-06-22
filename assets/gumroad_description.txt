@@ -1,0 +1,54 @@
+
+Epic Games Manager Pro - Never Re-Download Your Games Again!
+
+🚨 THE PROBLEM:
+You moved your Epic Games to a new drive, and now Epic Launcher can't find them. 
+It wants you to re-download EVERYTHING. That's hundreds of gigabytes!
+
+✅ THE SOLUTION:
+Epic Games Manager updates your game locations in seconds. 
+No re-downloading. No waiting. Just fixed.
+
+🎯 FEATURES:
+• Automatic game detection
+• One-click manifest repair  
+• Batch update all games at once
+• Backup before changes
+• Command line automation
+• Works with Epic Games on Windows/Mac/Linux
+
+💎 PRO VERSION INCLUDES:
+• Unlimited games (Free: 5 games only)
+• Automatic backups
+• Priority email support
+• Lifetime updates
+• Command line integration
+
+🛠️ HOW IT WORKS:
+1. Run the tool
+2. It finds your games
+3. Updates Epic's manifest files
+4. Your games work again!
+
+⏱️ TIME SAVED:
+- Average game: 50GB = 2+ hours to download
+- 10 games = 20+ hours saved
+- Your time is worth more than $4.99!
+
+📋 REQUIREMENTS:
+- Epic Games Launcher installed
+- Python 3.8+ (or use PowerShell version)
+- Windows 10/11 (Mac/Linux supported)
+
+🎁 INSTANT DELIVERY:
+Download immediately after purchase. 
+License key sent via email.
+
+💬 SUPPORT:
+Email support included for Pro users.
+Response within 24 hours.
+
+🔒 GUARANTEE:
+30-day money back guarantee if it doesn't work for you.
+
+Don't waste hours re-downloading. Fix it now!

@@ -1,0 +1,29 @@
+
+EPIC GAMES MANAGER PRO - MARKETING COPY
+
+Tagline: "Moved Your Games? Don't Re-Download!"
+
+Short Description:
+Fix your Epic Games library in seconds after moving games to a new drive. Save hundreds of GB of downloads!
+
+Key Benefits:
+• Save hours of re-downloading
+• One-click fix for moved games
+• Works with any Epic Games installation
+• Automatic backup protection
+• Lifetime updates included
+
+Customer Testimonials (Mock):
+"Saved me from re-downloading 500GB of games!" - John D.
+"Finally, a tool that just works!" - Sarah M.
+"Worth every penny. Saved so much time!" - Mike R.
+
+Screenshot Ideas:
+1. Before/After showing Epic Games not finding games vs. all games working
+2. Terminal showing the scan and update process
+3. Diagram showing how it works
+4. Success message with GB saved
+
+Price Points:
+- Free Version: Basic features, 5 game limit
+- Pro Version: $4.99 - Unlimited games, all features

@@ -1,0 +1,51 @@
+
+===========================================
+    Epic Games Manager Pro v1.2.0
+===========================================
+
+🔍 Scanning Epic Games library...
+
+✅ Found 12 games:
+
+  - Fortnite (142.3 GB)
+  - Grand Theft Auto V (95.8 GB)
+  - Red Dead Redemption 2 (116.2 GB)
+  - Control (42.5 GB)
+  - Rocket League (23.1 GB)
+  - Metro Exodus (72.9 GB)
+  - Borderlands 3 (85.4 GB)
+  - The Witcher 3 (64.7 GB)
+  - Cyberpunk 2077 (102.5 GB)
+  - Hades (12.3 GB)
+  - Among Us (385 MB)
+  - Fall Guys (8.7 GB)
+
+📂 Current location: C:\Epic Games
+🎯 New location detected: D:\Games\Epic
+
+Would you like to update all game locations? [Y/n]: Y
+
+🔧 Updating game manifests...
+  ✓ Fortnite - Updated
+  ✓ Grand Theft Auto V - Updated
+  ✓ Red Dead Redemption 2 - Updated
+  ✓ Control - Updated
+  ✓ Rocket League - Updated
+  ✓ Metro Exodus - Updated
+  ✓ Borderlands 3 - Updated
+  ✓ The Witcher 3 - Updated
+  ✓ Cyberpunk 2077 - Updated
+  ✓ Hades - Updated
+  ✓ Among Us - Updated
+  ✓ Fall Guys - Updated
+
+✅ Successfully updated 12 games!
+💾 Saved 766.8 GB from re-downloading
+
+🎮 You can now launch Epic Games and all your games will work!
+
+Pro Features Active:
+  ✓ Unlimited games
+  ✓ Automatic backups created
+  ✓ Batch operations enabled
+  ✓ Priority support available

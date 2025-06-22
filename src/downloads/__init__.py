@@ -1,0 +1,1 @@
+# Epic Games Manager Downloads Module
