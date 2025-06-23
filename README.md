@@ -1,42 +1,41 @@
-# Epic Games Manifest Updater
+# 🎮 Epic Games Transfer Tool
 
-[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Price](https://img.shields.io/badge/Price-$2-green.svg)](https://gumroad.com/l/epic-games-transfer)
 [![PowerShell](https://img.shields.io/badge/PowerShell-%235391FE.svg?style=flat&logo=powershell&logoColor=white)](EpicManifestUpdater.ps1)
-[![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Live-brightgreen.svg)](https://wesellis.github.io/epic-manifest-updater/)
-[![GitHub Release](https://img.shields.io/github/v/release/wesellis/epic-manifest-updater.svg)](https://github.com/wesellis/epic-manifest-updater/releases)
-[![Downloads](https://img.shields.io/github/downloads/wesellis/epic-manifest-updater/total.svg)](https://github.com/wesellis/epic-manifest-updater/releases)
+[![Epic Games](https://img.shields.io/badge/Epic%20Games-Compatible-0078f2.svg)](#)
 
-> **A PowerShell script that helps you update Epic Games manifest files after moving your game installations. No more manual file editing or game re-downloading needed!**
+> **🚀 Simple tool to update Epic Games locations after moving your games folder**
 
-Perfect for when you've moved your Epic Games library to a new drive or folder and need to update the launcher to recognize your games in their new location.
+Moved your Epic Games to a new drive? This tool fixes the paths so Epic Launcher recognizes your games without re-downloading.
 
-## Live Demo & Download
+## 🎯 What It Does
 
-**[Visit the Official Website →](https://wesellis.github.io/epic-manifest-updater/)**
+**One simple job:** Updates Epic Games manifest files when you move your games folder to a new location.
 
-## Quick Start
+## ✨ Features
 
-### The Problem
-Moved your Epic Games folder to a new location (like a different drive)? Epic Games Launcher can't find your games anymore and wants you to re-download everything? This tool fixes that instantly!
+- ✅ **Automatic Detection** - Finds all your Epic Games
+- ✅ **Batch Update** - Updates all game paths at once
+- ✅ **Safe Operation** - Validates before making changes
+- ✅ **Simple GUI** - Just select your new folder
+- ✅ **No Re-download** - Saves bandwidth and time
 
-### The Solution
-1. **Prepare:** Move your Epic Games folder to its new location
-2. **Download:** Get `EpicManifestUpdater.ps1` from [releases](https://github.com/wesellis/epic-manifest-updater/releases)
-3. **Unblock:** Right-click the script → Properties → Check "Unblock" → OK
-4. **Run:** Right-click script → "Run with PowerShell"
-5. **Select:** Choose your new games folder when prompted
-6. **Done:** Start Epic Games Launcher - your games are back!
+## 🚀 Quick Start
 
-## Features
+1. **Move** your Epic Games folder to new location
+2. **Purchase** for $2 on [Gumroad](https://gumroad.com/l/epic-games-transfer)
+3. **Run** the tool
+4. **Select** your new games folder
+5. **Done!** Epic Launcher recognizes your games
 
-- **Automatic Process** - Closes Epic Launcher and updates all manifests
-- **User-Friendly GUI** - Simple folder selection dialog
-- **Intelligent Detection** - Finds and updates only relevant game folders
-- **Visual Feedback** - Color-coded console output shows progress
-- **Lightning Fast** - Updates all games in seconds
-- **Safe Operation** - Only modifies manifest files, games untouched
-- **Error Handling** - Graceful handling of edge cases
-- **Progress Tracking** - Shows exactly what's being updated
+## 📋 Use Cases
+
+### 💡 Perfect For
+- **Drive Migration** - Moving games from C: to D: drive
+- **Storage Upgrade** - Transferring to new SSD/HDD
+- **External Gaming** - Using games on external drives
+- **System Reinstall** - Restoring games after Windows reinstall
+- **Folder Organization** - Cleaning up your file structure
 
 ## System Requirements
 
@@ -187,6 +186,16 @@ Describe "EpicManifestUpdater" {
 }
 ```
 
+## 💵 Pricing
+
+**Just $2** - One-time purchase on [Gumroad](https://gumroad.com/l/epic-games-transfer)
+
+### What You Get
+- ✅ Full tool with GUI
+- ✅ Lifetime updates
+- ✅ Email support
+- ✅ Works with all Epic Games
+
 ## Version History
 
 - **v1.2.0** - Enhanced error handling and validation
@@ -245,10 +254,10 @@ This project is licensed under the [MIT License](LICENSE) - feel free to use, mo
 
 ## Support
 
-- **Bug Reports** - [Create an issue](https://github.com/wesellis/epic-manifest-updater/issues/new?template=bug_report.md)
-- **Feature Requests** - [Suggest improvements](https://github.com/wesellis/epic-manifest-updater/issues/new?template=feature_request.md)
-- **Questions** - [Start a discussion](https://github.com/wesellis/epic-manifest-updater/discussions)
-- **Direct Contact** - Check the repository for contact information
+- **Email** - support@epicgamestransfer.com
+- **Response Time** - Within 48 hours
+- **Bug Reports** - [GitHub Issues](https://github.com/wesellis/epic-games-transfer/issues)
+- **Questions** - Include order number from Gumroad
 
 ## Acknowledgments
 
@@ -265,8 +274,8 @@ This project is licensed under the [MIT License](LICENSE) - feel free to use, mo
 
 ---
 
-**Epic Games Manifest Updater**
+**Epic Games Transfer Tool**
 
-Made for the gaming community
+Simple. Effective. Just $2.
 
-[Try It Now](https://wesellis.github.io/epic-manifest-updater/) • [Download](https://github.com/wesellis/epic-manifest-updater/releases) • [Contribute](CONTRIBUTING.md) • [Discussions](https://github.com/wesellis/epic-manifest-updater/discussions)
+[Buy Now](https://gumroad.com/l/epic-games-transfer) • [Support](mailto:support@epicgamestransfer.com) • [GitHub](https://github.com/wesellis/epic-games-transfer)
