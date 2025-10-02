@@ -1,10 +1,12 @@
 # Epic Games Transfer Tool
 
-A simple utility to update Epic Games manifest files after moving game installations to a new location.
+A utility to update Epic Games manifest files after moving game installations to a new location.
 
-[![PowerShell](https://img.shields.io/badge/PowerShell-%235391FE.svg?style=flat-square&logo=powershell&logoColor=white)](EpicManifestUpdater.ps1)
-[![Python](https://img.shields.io/badge/Python-3.8+-3776AB?style=flat-square&logo=python)](https://python.org)
-[![License](https://img.shields.io/badge/License-MIT-blue?style=flat-square)](LICENSE)
+[![PowerShell](https://img.shields.io/badge/PowerShell-5391FE?style=flat-square&logo=powershell&logoColor=white)](EpicManifestUpdater.ps1)
+[![Python](https://img.shields.io/badge/Python-3.8+-3776AB?style=flat-square&logo=python&logoColor=white)](https://python.org)
+[![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE)
+[![Stars](https://img.shields.io/github/stars/wesellis/APP-Epic-Games-Transfer-Tool-PowerShell-Manifest-Path-Updater?style=flat-square)](https://github.com/wesellis/APP-Epic-Games-Transfer-Tool-PowerShell-Manifest-Path-Updater/stargazers)
+[![Last Commit](https://img.shields.io/github/last-commit/wesellis/APP-Epic-Games-Transfer-Tool-PowerShell-Manifest-Path-Updater?style=flat-square)](https://github.com/wesellis/APP-Epic-Games-Transfer-Tool-PowerShell-Manifest-Path-Updater/commits)
 
 ## Overview
 
