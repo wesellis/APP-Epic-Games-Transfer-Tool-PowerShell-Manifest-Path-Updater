@@ -125,3 +125,73 @@ MIT License - See [LICENSE](LICENSE) for details.
 
 - Built for the Epic Games community
 - Inspired by the need to avoid re-downloading large game libraries
+
+---
+
+## Project Status & Roadmap
+
+**Completion: ~90%**
+
+### What Works
+- ✅ PowerShell script with GUI folder selection
+- ✅ Python GUI version with progress tracking
+- ✅ Automatic Epic Games Launcher closing
+- ✅ Manifest file detection and updating (InstallLocation, ManifestLocation, StagingLocation)
+- ✅ Batch processing of all games
+- ✅ Cross-platform support (Python version works on Windows/Linux/Mac)
+- ✅ User-friendly interfaces for both versions
+- ✅ Safe operation (only modifies manifest files, not game data)
+
+### Known Limitations & Missing Features
+
+**Safety Features:**
+- ⚠️ **No Backup**: Doesn't create backup of original manifest files before modifying
+- ⚠️ **No Undo**: Can't revert changes if something goes wrong
+- ⚠️ **No Verification**: Doesn't verify games work after path update
+
+**Error Handling:**
+- ⚠️ **Limited Error Messages**: Basic error handling but could be more informative
+- ⚠️ **No Validation**: Doesn't verify selected folder contains actual Epic game directories
+- ⚠️ **No Recovery**: If Epic launcher is running and can't be closed, script may fail
+
+**Features:**
+- ⚠️ **No Logging**: Doesn't create log file of changes made
+- ⚠️ **No CLI Mode**: Python version is GUI-only (no command-line arguments)
+- ⚠️ **No Dry Run**: Can't preview changes before applying
+- ⚠️ **Single Directory Only**: Must move all games to same location (can't handle split libraries)
+
+**Code Quality:**
+- ⚠️ **No Tests**: No unit tests or integration tests
+- ⚠️ **No Configuration**: Settings are hardcoded (manifest path location)
+- ⚠️ **Limited Documentation**: Works well but lacks detailed troubleshooting guide
+
+### What Needs Work
+
+1. **Backup System** - Auto-backup manifest files before modification
+2. **Verification** - Check that .egstore folders exist in new location
+3. **Better Error Handling** - More informative error messages and validation
+4. **Logging System** - Create detailed log file of all changes
+5. **Dry Run Mode** - Preview changes before applying
+6. **Undo Functionality** - Restore from backups if needed
+7. **Multi-Location Support** - Handle games split across multiple drives
+8. **CLI Interface** - Add command-line arguments for automation
+9. **Testing** - Add unit tests
+10. **Enhanced Documentation** - More troubleshooting scenarios
+
+### Current Status
+
+This tool **works reliably** for its core purpose: updating Epic Games manifest files after moving games. It's been tested successfully and does what it claims. The main limitations are around safety features (backups, verification) and edge cases (multi-location libraries, advanced error scenarios).
+
+For most users moving their entire Epic library to a new drive, this tool works perfectly as-is.
+
+### Contributing
+
+If you'd like to help improve the tool, contributions are welcome. Priority areas:
+1. Adding automatic manifest backups
+2. Implementing verification checks
+3. Adding comprehensive error handling
+4. Writing tests
+
+---
+
+**Note:** This tool works well for its intended purpose. Core functionality is solid. Safety features and edge case handling could be improved.
