@@ -34,11 +34,23 @@ When you move Epic Games installations to a new drive or folder, the Epic Games 
 
 ## Installation
 
-### PowerShell Script
+### Windows Standalone (Easiest - No Python Required)
 
-No installation needed. Just download `EpicManifestUpdater.ps1` and run it.
+1. **Download** `EpicManifestUpdater.exe` from [Releases](https://github.com/wesellis/APP-Epic-Games-Transfer-Tool-PowerShell-Manifest-Path-Updater/releases)
+2. **Double-click** the executable to launch the GUI
+3. **No installation needed** - just run and use!
 
-### Python GUI
+The standalone .exe includes all dependencies and works on Windows 10+.
+
+### PowerShell Script (Windows)
+
+1. **Download** `EpicManifestUpdater.ps1` from [Releases](https://github.com/wesellis/APP-Epic-Games-Transfer-Tool-PowerShell-Manifest-Path-Updater/releases)
+2. **Right-click** and select "Run with PowerShell"
+3. **Follow prompts** to update manifests
+
+No installation needed. Just download and run.
+
+### Python GUI (Cross-Platform)
 
 1. Install Python dependencies:
 ```bash
@@ -49,6 +61,8 @@ pip install -r requirements.txt
 ```bash
 python epic_manifest_updater.py
 ```
+
+Works on Windows, Linux, and macOS.
 
 ## Usage
 

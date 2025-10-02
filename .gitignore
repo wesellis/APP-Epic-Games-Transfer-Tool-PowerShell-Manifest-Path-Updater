@@ -125,3 +125,6 @@ security-scan-results/
 # Performance profiling
 *.psprofile
 *.perflog
+build/
+dist/
+*.spec
